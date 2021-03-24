@@ -56,12 +56,8 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
             throw new Exception\InvalidArgumentException('Header must match with the format "name:value"');
         }
 
-        if (! HeaderName::isValid($parts[0])) {
+        if (!HeaderName::isValid($parts[0])) {
             throw new Exception\InvalidArgumentException('Invalid header name detected');
-        }
-
-        if (! HeaderValue::isValid($parts[1])) {
-            throw new Exception\InvalidArgumentException('Invalid header value detected');
         }
 
         $parts[1] = ltrim($parts[1]);
@@ -95,14 +91,14 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
      */
     public function setFieldName($fieldName)
     {
-        if (! is_string($fieldName) || empty($fieldName)) {
+        if (!is_string($fieldName) || empty($fieldName)) {
             throw new Exception\InvalidArgumentException('Header name must be a string');
         }
 
         // Pre-filter to normalize valid characters, change underscore to dash
         $fieldName = str_replace(' ', '-', ucwords(str_replace(['_', '-'], ' ', $fieldName)));
 
-        if (! HeaderName::isValid($fieldName)) {
+        if (!HeaderName::isValid($fieldName)) {
             throw new Exception\InvalidArgumentException(
                 'Header name must be composed of printable US-ASCII characters, except colon.'
             );
@@ -128,7 +124,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
     {
         $fieldValue = (string) $fieldValue;
 
-        if (! HeaderWrap::canBeEncoded($fieldValue)) {
+        if (!HeaderWrap::canBeEncoded($fieldValue)) {
             throw new Exception\InvalidArgumentException(
                 'Header value must be composed of printable US-ASCII characters and valid folding sequences.'
             );
@@ -178,7 +174,7 @@ class GenericHeader implements HeaderInterface, UnstructuredInterface
 
     public function getEncoding()
     {
-        if (! $this->encoding) {
+        if (!$this->encoding) {
             $this->encoding = Mime::isPrintable($this->fieldValue) ? 'ASCII' : 'UTF-8';
         }
 
