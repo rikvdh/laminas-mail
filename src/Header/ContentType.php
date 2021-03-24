@@ -74,7 +74,7 @@ class ContentType implements UnstructuredInterface
 
         $values = [$prepared];
         foreach ($this->parameters as $attribute => $value) {
-            if (HeaderInterface::FORMAT_ENCODED === $format && ! Mime::isPrintable($value)) {
+            if (HeaderInterface::FORMAT_ENCODED === $format && !Mime::isPrintable($value)) {
                 $this->encoding = 'UTF-8';
                 $value = HeaderWrap::wrap($value, $this);
                 $this->encoding = 'ASCII';
@@ -111,13 +111,13 @@ class ContentType implements UnstructuredInterface
      */
     public function setType($type)
     {
-        if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
+        /*if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a value in the format "type/subtype"; received "%s"',
                 __METHOD__,
                 (string) $type
             ));
-        }
+        }*/
         $this->type = $type;
         return $this;
     }
@@ -146,10 +146,10 @@ class ContentType implements UnstructuredInterface
         $name  = trim(strtolower($name));
         $value = (string) $value;
 
-        if (! HeaderValue::isValid($name)) {
+        if (!HeaderValue::isValid($name)) {
             throw new Exception\InvalidArgumentException('Invalid content-type parameter name detected');
         }
-        if (! HeaderWrap::canBeEncoded($value)) {
+        if (!HeaderWrap::canBeEncoded($value)) {
             throw new Exception\InvalidArgumentException(
                 'Parameter value must be composed of printable US-ASCII or UTF-8 characters.'
             );

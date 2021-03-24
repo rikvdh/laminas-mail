@@ -31,8 +31,8 @@ class Address implements Address\AddressInterface
      */
     public static function fromString($address, $comment = null)
     {
-        if (! preg_match('/^((?P<name>.*)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
-            throw new Exception\InvalidArgumentException('Invalid address format');
+        if (!preg_match('/^((?P<name>.*)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
+            //throw new Exception\InvalidArgumentException('Invalid address format');
         }
 
         $name = null;
@@ -65,7 +65,7 @@ class Address implements Address\AddressInterface
     public function __construct($email, $name = null, $comment = null)
     {
         $emailAddressValidator = new EmailAddressValidator(Hostname::ALLOW_DNS | Hostname::ALLOW_LOCAL);
-        if (! is_string($email) || empty($email)) {
+        if (!is_string($email) || empty($email)) {
             throw new Exception\InvalidArgumentException('Email must be a valid email address');
         }
 
@@ -73,13 +73,13 @@ class Address implements Address\AddressInterface
             throw new Exception\InvalidArgumentException('CRLF injection detected');
         }
 
-        if (! $emailAddressValidator->isValid($email)) {
-            $invalidMessages = $emailAddressValidator->getMessages();
-            throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
+        if (!$emailAddressValidator->isValid($email)) {
+            //$invalidMessages = $emailAddressValidator->getMessages();
+            //throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
         }
 
         if (null !== $name) {
-            if (! is_string($name)) {
+            if (!is_string($name)) {
                 throw new Exception\InvalidArgumentException('Name must be a string');
             }
 
