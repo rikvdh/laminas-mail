@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-mail for the canonical source repository
- * @copyright https://github.com/laminas/laminas-mail/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-mail/blob/master/LICENSE.md New BSD License
- */
-
 namespace LaminasTest\Mail;
 
 use Laminas\Loader\PluginClassLocator;
@@ -43,6 +37,7 @@ class HeadersTest extends TestCase
     {
         $this->originalErrorHandler = set_error_handler(
             function (int $errno, string $errstr, string $errfile, int $errline): void {
+                /** @psalm-suppress InternalMethod */
                 throw new Deprecated($errstr, $errno, $errfile, $errline);
             },
             E_USER_DEPRECATED
@@ -639,5 +634,17 @@ class HeadersTest extends TestCase
 
         $headers->setHeaderLocator($locator);
         $this->assertSame($locator, $headers->getHeaderLocator());
+    }
+
+    public function testStrictKeyComparisonInHas(): void
+    {
+        $headers = Mail\Headers::fromString("000: foo-bar");
+        $this->assertFalse($headers->has('0'));
+    }
+
+    public function testStrictKeyComparisonInGet(): void
+    {
+        $headers = Mail\Headers::fromString("000: foo-bar");
+        $this->assertFalse($headers->get('0'));
     }
 }
