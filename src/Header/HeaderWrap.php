@@ -102,11 +102,14 @@ abstract class HeaderWrap
         // see https://tools.ietf.org/html/rfc2822#section-2.2.3 about unfolding
         $parts = explode(Headers::FOLDING, $value);
         $value = implode(' ', $parts);
-
+        $useImapDecoding = false;
+        if (preg_match('/^=\?windows-1258\?.*\?= <[^>]*>$/', $value)) {
+            $useImapDecoding = true;
+        }
         $decodedValue = iconv_mime_decode($value, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, 'UTF-8');
 
         // imap (unlike iconv) can handle multibyte headers which are splitted across multiple line
-        if (self::isNotDecoded($value, $decodedValue) && extension_loaded('imap')) {
+        if (($useImapDecoding || self::isNotDecoded($value, $decodedValue)) && extension_loaded('imap')) {
             return array_reduce(
                 imap_mime_header_decode(imap_utf8($value)),
                 function ($accumulator, $headerPart) {
