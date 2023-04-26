@@ -42,7 +42,7 @@ class ContentType implements UnstructuredInterface
 
         if (isset($parts[1])) {
             $values = ListParser::parse(trim($parts[1]), [';', '=']);
-            $length = count($values);
+            $length = floor(count($values) / 2) * 2;
 
             for ($i = 0; $i < $length; $i += 2) {
                 $value = $values[$i + 1];
