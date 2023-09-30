@@ -35,7 +35,7 @@ class Address implements Address\AddressInterface
     public static function fromString($address, $comment = null)
     {
         if (! preg_match('/^((?P<name>.*)<(?P<namedEmail>[^>]+)>|(?P<email>.+))$/', $address, $matches)) {
-            throw new Exception\InvalidArgumentException('Invalid address format');
+            //throw new Exception\InvalidArgumentException('Invalid address format');
         }
 
         $name = null;
@@ -46,6 +46,7 @@ class Address implements Address\AddressInterface
             $name = null;
         }
 
+        $email = null;
         if (isset($matches['namedEmail'])) {
             $email = $matches['namedEmail'];
         }
@@ -71,7 +72,7 @@ class Address implements Address\AddressInterface
     {
         $emailAddressValidator = new EmailAddressValidator(Hostname::ALLOW_DNS | Hostname::ALLOW_LOCAL);
         if (! is_string($email) || empty($email)) {
-            throw new Exception\InvalidArgumentException('Email must be a valid email address');
+            //throw new Exception\InvalidArgumentException('Email must be a valid email address');
         }
 
         if (preg_match("/[\r\n]/", $email)) {
@@ -79,8 +80,8 @@ class Address implements Address\AddressInterface
         }
 
         if (! $emailAddressValidator->isValid($email)) {
-            $invalidMessages = $emailAddressValidator->getMessages();
-            throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
+            // $invalidMessages = $emailAddressValidator->getMessages();
+            // throw new Exception\InvalidArgumentException(array_shift($invalidMessages));
         }
 
         if (null !== $name) {

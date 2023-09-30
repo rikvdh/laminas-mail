@@ -52,7 +52,7 @@ class ContentType implements UnstructuredInterface
 
         if (isset($parts[1])) {
             $values = ListParser::parse(trim($parts[1]), [';', '=']);
-            $length = count($values);
+            $length = floor(count($values) / 2) * 2;
 
             for ($i = 0; $i < $length; $i += 2) {
                 $value = $values[$i + 1];
@@ -131,13 +131,13 @@ class ContentType implements UnstructuredInterface
      */
     public function setType($type)
     {
-        if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
+        /*if (! preg_match('/^[a-z-]+\/[a-z0-9.+-]+$/i', $type)) {
             throw new Exception\InvalidArgumentException(sprintf(
                 '%s expects a value in the format "type/subtype"; received "%s"',
                 __METHOD__,
                 (string) $type
             ));
-        }
+        }*/
         $this->type = $type;
         return $this;
     }
